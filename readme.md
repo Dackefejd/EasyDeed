@@ -27,10 +27,3 @@ The project is ideal for developers and analysts who need a quick and customizab
 - **Pandas 2.2.3** – Data processing and export
 
 ---
-
-## 🚀 Getting Started
-
-### Clone the repository
-```bash
-git clone https://github.com/your-username/easydeed.git
-cd easydeed
