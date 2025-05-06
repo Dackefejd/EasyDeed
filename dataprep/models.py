@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils.text import slugify
 from django.contrib.auth.models import User
 from django.contrib.auth import get_user_model
 from django.db.models import SET
@@ -21,6 +22,7 @@ class DataSource(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 
+
     def __str__(self):
         return f'{self.name} ({self.source_type})'
 
@@ -29,11 +31,16 @@ class DataSource(models.Model):
 class DataPreset(models.Model):
     user = models.ForeignKey(User, on_delete=SET(get_eddy_user), null=True, blank=True)
     name = models.CharField(max_length=100, unique=True)
+    slug = models.SlugField(unique=True, max_length=100, blank=True, null=True)
     source = models.ForeignKey(DataSource, on_delete=models.SET_NULL, null=True, blank=True)
     description = models.TextField(blank=True)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.name)
+        super().save(*args, **kwargs)
     
     def __str__(self):
         return f'{self.name} Owner: {self.user} | Created: {self.created.strftime("%Y-%m-%d")} | Updated: {self.updated.strftime("%Y-%m-%d")}'

@@ -1,0 +1,5 @@
+{
+  "column": "Status",
+  "condition": "==",
+  "value": "Active"
+}

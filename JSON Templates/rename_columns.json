@@ -1,0 +1,6 @@
+{
+    "mapping": {
+      "old_name": "new_name",
+      "amount": "total_amount"
+    }
+  }
