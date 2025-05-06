@@ -1,0 +1,12 @@
+{
+    "url": "https://api.example.com/data",
+    "method": "GET",
+    "headers": {
+      "Authorization": "Bearer abc123"
+    },
+    "params": {
+      "start_date": "2024-01-01",
+      "end_date": "2024-12-31"
+    }
+  }
+  

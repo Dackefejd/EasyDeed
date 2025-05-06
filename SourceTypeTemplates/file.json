@@ -1,0 +1,5 @@
+{
+    "expected_columns": ["Name", "Amount", "Date"],
+    "delimiter": ","
+  }
+  

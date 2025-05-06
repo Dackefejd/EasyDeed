@@ -3,16 +3,33 @@ from django.contrib.auth.models import User
 from django.contrib.auth import get_user_model
 from django.db.models import SET
 
-
-
-
-# Returns the default user 'Eddy' which is used as a fallback if the original user (e.g. the creator of a DataPreset) has been deleted. Eddy represents the EasyDeed system user.
+# Returns the default user 'Eddy' which is used as a fallback if the original user (e.g. the creator of a DataPreset) has been deleted. Eddy represents the EasyDeed default user.
 def get_eddy_user():
     return get_user_model().objects.get(username='Eddy')
+
+# SOURCE_TYPE - Users choose whether the data preset should be for retrieving data via REST API or whether it should be loaded as a CSV/XLSX
+class DataSource(models.Model):
+    SOURCE_TYPE = [
+        ("file", "CSV/XLSX File"),
+        ("api", "API")
+    ]
+
+    name = models.CharField(max_length=100, unique=True)
+    owner = models.ForeignKey(User, on_delete=SET(get_eddy_user), null=True, blank=True)
+    source_type = models.CharField(max_length=30, choices=SOURCE_TYPE)
+    config = models.JSONField("API or file settings. The structure varies depending on the type.")
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f'{self.name} ({self.source_type})'
+
+
 
 class DataPreset(models.Model):
     user = models.ForeignKey(User, on_delete=SET(get_eddy_user), null=True, blank=True)
     name = models.CharField(max_length=100, unique=True)
+    source = models.ForeignKey(DataSource, on_delete=models.SET_NULL, null=True, blank=True)
     description = models.TextField(blank=True)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
