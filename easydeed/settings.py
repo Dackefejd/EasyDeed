@@ -41,6 +41,7 @@ INSTALLED_APPS = [
 
     #APPS
     "base.apps.BaseConfig",
+    'dataprep.apps.DataprepConfig',
 ]
 
 MIDDLEWARE = [
